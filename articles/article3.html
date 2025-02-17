@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Summit Results - Daily News</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Daily News</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                </ul>
+                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <article>
+                    <h1 class="mb-4">Global Climate Summit Results</h1>
+                    <div class="text-muted mb-4">
+                        By Michael Johnson | Published: June 13, 2023
+                    </div>
+                    
+                    <div class="article-content">
+                        <p>World leaders have reached a historic agreement at the Global Climate Summit, setting ambitious new targets for reducing greenhouse gas emissions and combating climate change. The landmark deal, signed by 195 countries, represents the most significant climate action since the Paris Agreement.</p>
+                        
+                        <p>The new agreement includes several groundbreaking commitments:</p>
+                        <ul>
+                            <li>50% reduction in global emissions by 2030</li>
+                            <li>Establishment of a $100 billion climate fund</li>
+                            <li>Mandatory renewable energy targets</li>
+                            <li>Global phase-out of coal power by 2040</li>
+                        </ul>
+                        
+                        <p>Environmental experts are calling this agreement a crucial turning point in the fight against climate change. The commitments made at the summit go beyond previous international agreements, with binding targets and concrete action plans.</p>
+                        
+                        <p>Developing nations will receive significant support through the new climate fund, enabling them to transition to clean energy while maintaining economic growth. The agreement also includes provisions for technology transfer and capacity building.</p>
+                        
+                        <div class="paywall-overlay">
+                            <h3>Subscribe to continue reading</h3>
+                            <p>Get unlimited access to all our premium content</p>
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                                Subscribe Now
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscribe Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Subscribe to Daily News</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="email" class="form-control" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subscription Plan</label>
+                        <select class="form-select">
+                            <option>Monthly - $9.99</option>
+                            <option>Annual - $99.99</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-secondary preview-toggle">Show Full Content</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/paywall.js"></script>
+</body>
+</html>

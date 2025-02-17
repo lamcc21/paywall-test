@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News - Your Trusted Source</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Daily News</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#politics">Politics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tech">Technology</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#science">Science</a></li>
+                </ul>
+                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="mb-4">Latest News</h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Breaking: Major Scientific Discovery</h5>
+                        <p class="card-text">Scientists announce groundbreaking discovery in quantum computing...</p>
+                        <a href="articles/article1.html" class="btn btn-secondary">Read More</a>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Tech Giants Announce Collaboration</h5>
+                        <p class="card-text">Leading tech companies join forces for innovative project...</p>
+                        <a href="articles/article2.html" class="btn btn-secondary">Read More</a>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Global Climate Summit Results</h5>
+                        <p class="card-text">World leaders reach new agreement on climate change...</p>
+                        <a href="articles/article3.html" class="btn btn-secondary">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Subscribe Today</h5>
+                        <p class="card-text">Get unlimited access to all our premium content.</p>
+                        <button class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                            Subscribe Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscribe Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Subscribe to Daily News</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input type="email" class="form-control" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subscription Plan</label>
+                        <select class="form-select">
+                            <option>Monthly - $9.99</option>
+                            <option>Annual - $99.99</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
