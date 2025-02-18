@@ -3,7 +3,9 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, sans-serif;
     line-height: 1.6;
 }
 
@@ -22,6 +24,7 @@ body {
     overflow: hidden;
     position: relative;
     margin-bottom: 2rem;
+    transition: max-height 0.5s ease-out;
 }
 
 .paywall-overlay {
@@ -37,4 +40,28 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+}
+/* jQuery Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1050;
+    backdrop-filter: blur(2px);
+}
+
+.modal-dialog {
+    margin: 60px auto;
+    max-width: 500px;
+}
+
+.modal-content {
+    background: var(--bs-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
 }

@@ -1,98 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Giants Announce Collaboration - Daily News</title>
-    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
-    <link href="../css/styles.css" rel="stylesheet">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">Daily News</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                </ul>
-                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#subscribeModal">
-                    Subscribe
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tech Giants Announce Collaboration - Daily News</title>
+        <link
+            href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css"
+            rel="stylesheet"
+        />
+        <link href="../css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">Daily News</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                >
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-outline-info show-modal">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <article>
+                        <h1 class="mb-4">Tech Giants Announce Collaboration</h1>
+                        <div class="text-muted mb-4">
+                            By Jane Smith | Published: June 14, 2023
+                        </div>
+
+                        <div class="article-content">
+                            <p>
+                                In a surprising move that has sent shockwaves
+                                through the tech industry, leading technology
+                                companies announced today that they will be
+                                joining forces on a groundbreaking new project
+                                aimed at revolutionizing artificial intelligence
+                                development.
+                            </p>
+
+                            <p>
+                                The collaboration, which includes some of the
+                                biggest names in tech, marks an unprecedented
+                                level of cooperation between traditionally
+                                competitive companies. The joint venture will
+                                focus on developing ethical AI frameworks and
+                                advancing responsible AI development practices.
+                            </p>
+
+                            <p>Key aspects of the collaboration include:</p>
+                            <ul>
+                                <li>
+                                    Shared research facilities and resources
+                                </li>
+                                <li>Open-source AI development tools</li>
+                                <li>
+                                    Joint ethical guidelines for AI deployment
+                                </li>
+                                <li>Collaborative research programs</li>
+                            </ul>
+
+                            <p>
+                                Industry analysts are calling this partnership a
+                                "game-changer" that could accelerate AI
+                                development while ensuring proper safety
+                                measures are in place. The initiative is
+                                expected to create thousands of new jobs and
+                                foster innovation across the tech sector.
+                            </p>
+
+                            <p>
+                                The companies have pledged billions in initial
+                                funding for the project, with additional
+                                investments planned over the next five years.
+                                This unprecedented collaboration could reshape
+                                the future of artificial intelligence and its
+                                applications in everyday life.
+                            </p>
+
+                            <div class="paywall-overlay">
+                                <h3>Subscribe to continue reading</h3>
+                                <p>
+                                    Get unlimited access to all our premium
+                                    content
+                                </p>
+                                <button
+                                    class="btn btn-info"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#subscribeModal"
+                                >
+                                    Subscribe Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <article>
-                    <h1 class="mb-4">Tech Giants Announce Collaboration</h1>
-                    <div class="text-muted mb-4">
-                        By Jane Smith | Published: June 14, 2023
+        <!-- Subscribe Modal -->
+        <div class="modal fade" id="subscribeModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Subscribe to Daily News</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                        ></button>
                     </div>
-                    
-                    <div class="article-content">
-                        <p>In a surprising move that has sent shockwaves through the tech industry, leading technology companies announced today that they will be joining forces on a groundbreaking new project aimed at revolutionizing artificial intelligence development.</p>
-                        
-                        <p>The collaboration, which includes some of the biggest names in tech, marks an unprecedented level of cooperation between traditionally competitive companies. The joint venture will focus on developing ethical AI frameworks and advancing responsible AI development practices.</p>
-                        
-                        <p>Key aspects of the collaboration include:</p>
-                        <ul>
-                            <li>Shared research facilities and resources</li>
-                            <li>Open-source AI development tools</li>
-                            <li>Joint ethical guidelines for AI deployment</li>
-                            <li>Collaborative research programs</li>
-                        </ul>
-                        
-                        <p>Industry analysts are calling this partnership a "game-changer" that could accelerate AI development while ensuring proper safety measures are in place. The initiative is expected to create thousands of new jobs and foster innovation across the tech sector.</p>
-                        
-                        <p>The companies have pledged billions in initial funding for the project, with additional investments planned over the next five years. This unprecedented collaboration could reshape the future of artificial intelligence and its applications in everyday life.</p>
-                        
-                        <div class="paywall-overlay">
-                            <h3>Subscribe to continue reading</h3>
-                            <p>Get unlimited access to all our premium content</p>
-                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#subscribeModal">
-                                Subscribe Now
-                            </button>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                placeholder="name@example.com"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subscription Plan</label>
+                            <select class="form-select">
+                                <option>Monthly - $9.99</option>
+                                <option>Annual - $99.99</option>
+                            </select>
                         </div>
                     </div>
-                </article>
-            </div>
-        </div>
-    </div>
-
-    <!-- Subscribe Modal -->
-    <div class="modal fade" id="subscribeModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Subscribe to Daily News</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <input type="email" class="form-control" placeholder="name@example.com">
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-info">
+                            Subscribe
+                        </button>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Subscription Plan</label>
-                        <select class="form-select">
-                            <option>Monthly - $9.99</option>
-                            <option>Annual - $99.99</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info">Subscribe</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script src="../js/paywall-access.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="../js/paywall.js"></script>
+        <script>
+            // Display subscription status in console for testing
+            $(document).ready(function () {
+                console.log(
+                    "Subscription status:",
+                    PaywallAccess.hasAccess ? "Subscribed" : "Not subscribed"
+                );
+            });
+        </script>
+    </body>
 </html>

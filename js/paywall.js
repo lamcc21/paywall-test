@@ -1,14 +1,28 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const previewToggle = document.querySelector('.preview-toggle');
-    const articleContent = document.querySelector('.article-content');
-    const paywallOverlay = document.querySelector('.paywall-overlay');
-    
-    if (previewToggle && articleContent && paywallOverlay) {
-        previewToggle.addEventListener('click', function() {
-            articleContent.classList.toggle('full');
-            paywallOverlay.style.display = articleContent.classList.contains('full') ? 'none' : 'flex';
-            previewToggle.textContent = articleContent.classList.contains('full') ? 
-                'Show Preview' : 'Show Full Content';
-        });
+$(document).ready(function () {
+  // Modal handling
+  $(".show-modal").click(function () {
+    $("#subscribeModal").fadeIn(300);
+  });
+
+  $(".btn-close, .modal-footer .btn-secondary").click(function () {
+    $("#subscribeModal").fadeOut(200);
+  });
+
+  // Close modal when clicking outside
+  $(window).click(function (e) {
+    if ($(e.target).is(".modal")) {
+      $("#subscribeModal").fadeOut(200);
     }
+  });
+
+  // Subscribe to access state changes
+  PaywallAccess.subscribe(function(hasAccess) {
+    if (hasAccess) {
+      $(".paywall-overlay").hide();
+      $(".article-content").css("max-height", "none");
+    } else {
+      $(".paywall-overlay").show();
+      $(".article-content").css("max-height", "var(--article-preview-height)");
+    }
+  });
 });
