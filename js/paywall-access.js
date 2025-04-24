@@ -58,15 +58,15 @@ const PaywallAccess = (function () {
       requestToken();
     },
 
-    async checkAccess(token) {
+    async checkAccess(authProof) {
       try {
         const response = await fetch(`${API_BASE_URL}/access`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "X-Auth-Proof": authProof,
           },
           body: JSON.stringify({
-            idToken: token,
             url: window.location.href,
           }),
         });
