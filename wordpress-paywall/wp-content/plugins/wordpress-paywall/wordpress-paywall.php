@@ -3,7 +3,7 @@
  * Plugin Name: WordPress Paywall with MemberPress Integration
  * Plugin URI: http://example.com/wordpress-paywall
  * Description: A paywall system that works with MemberPress and micropayments
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Your Name
  * Author URI: http://example.com
  * License: GPL2
@@ -104,12 +104,14 @@ class WordPress_Paywall {
         if (!$post_id) {
             return;
         }
+        
+        $this->simple_log("Enqueue Scripts: Running for post ID: $post_id. is_singular() = " . (is_singular() ? 'true' : 'false'));
 
         wp_enqueue_script(
             'paywall-access',
             plugin_dir_url(__FILE__) . 'js/paywall-access.js',
             array('jquery'),
-            '1.5.1', // Version number matches plugin version
+            '1.5.2', // Version number matches plugin version
             true
         );
 
@@ -117,12 +119,13 @@ class WordPress_Paywall {
             'paywall',
             plugin_dir_url(__FILE__) . 'js/paywall.js',
             array('jquery', 'paywall-access'),
-            '1.5.1',
+            '1.5.2',
             true
         );
         
         // Check if this post is already unlocked
         $is_already_unlocked = $this->has_unlock_access($post_id);
+        $this->simple_log("Enqueue Scripts: Post $post_id already unlocked check = " . ($is_already_unlocked ? 'true' : 'false'));
 
         wp_localize_script('paywall-access', 'OpenPageUnlocker', array(
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -151,12 +154,16 @@ class WordPress_Paywall {
             return $content;
         }
         
+        $this->simple_log("Maybe Restrict Content: Running for post $post_id");
+        
         // If this content is unlocked or user is admin, show full content
         if ($this->has_unlock_access($post_id) || current_user_can('edit_posts')) {
+            $this->simple_log("Maybe Restrict Content: Access granted for post $post_id, returning original content.");
             return $content;
         }
         
         // Otherwise, show a truncated version with paywall
+        $this->simple_log("Maybe Restrict Content: No access for post $post_id, showing overlay.");
         $excerpt = wp_trim_words($content, 55, '...');
         
         return $excerpt . '
@@ -277,52 +284,57 @@ class WordPress_Paywall {
         // Get a valid integer post ID
         $post_id = $this->get_post_id_from_input($post_input);
         if (!$post_id) {
-            $this->simple_log("Invalid input to has_unlock_access");
+            $this->simple_log("has_unlock_access: Invalid input, returning false");
             return false;
         }
         
+        $this->simple_log("has_unlock_access: Checking access for post ID: $post_id");
+        
         // If paywall is disabled, everyone has access
         if (!$this->paywall_enabled) {
+            $this->simple_log("has_unlock_access: Paywall disabled globally, returning true");
             return true;
         }
         
         // Always allow admin/editor access
         if (current_user_can('edit_posts')) {
-            $this->simple_log("Admin/editor access granted for post: $post_id");
+            $this->simple_log("has_unlock_access: User is Admin/Editor, returning true for post $post_id");
             return true;
         }
         
+        // Check based on login status
         if (is_user_logged_in()) {
             // Check user meta for unlocked posts
             $user_id = get_current_user_id();
             $unlocked_posts = get_user_meta($user_id, 'openpage_unlocked_posts', true);
             
             if (is_array($unlocked_posts) && isset($unlocked_posts[$post_id])) {
-                $this->simple_log("Found unlock in user meta for post: $post_id");
+                $this->simple_log("has_unlock_access: Found unlock in user meta for post $post_id, returning true");
                 return true;
             }
+            $this->simple_log("has_unlock_access: No unlock found in user meta for post $post_id");
         } else {
             // Check cookie for unlocked posts
             $cookie_name = 'openpage_unlocked_posts';
             if (isset($_COOKIE[$cookie_name])) {
                 $cookie_value = $_COOKIE[$cookie_name];
-                $this->simple_log("Found cookie: $cookie_value");
+                $this->simple_log("has_unlock_access: Found cookie '$cookie_name' with value: $cookie_value");
                 
                 $unlocked_posts = json_decode(stripslashes($cookie_value), true);
                 
                 // Check if the decoded value is an array and the key exists
                 if (is_array($unlocked_posts) && isset($unlocked_posts[$post_id])) {
-                    $this->simple_log("Found unlock in cookie for post: $post_id (cookie value: $cookie_value)");
+                    $this->simple_log("has_unlock_access: Found post $post_id in cookie, returning true");
                     return true;
-                } else {
-                    $this->simple_log("Post $post_id not found in cookie (cookie value: $cookie_value)");
                 }
+                $this->simple_log("has_unlock_access: Post $post_id NOT found in cookie array (or cookie invalid json)");
             } else {
-                $this->simple_log("No unlock cookie found");
+                $this->simple_log("has_unlock_access: No cookie named '$cookie_name' found");
             }
         }
         
-        $this->simple_log("No unlock access for post: $post_id");
+        // If no condition matched, access is denied
+        $this->simple_log("has_unlock_access: No access granted for post $post_id, returning false");
         return false;
     }
     
@@ -469,28 +481,37 @@ class WordPress_Paywall {
      * if the post has been unlocked, regardless of any other filtering
      */
     public function force_display_full_content($content) {
+        $this->simple_log("force_display_full_content: Running...");
         // Ignore if paywall is disabled
         if (!$this->paywall_enabled) {
+            $this->simple_log("force_display_full_content: Paywall disabled, returning original content.");
             return $content;
         }
         
         if (!is_singular() || is_admin()) {
+            $this->simple_log("force_display_full_content: Not singular or is admin, returning original content.");
             return $content;
         }
         
         $post_id = get_the_ID();
         if (!$post_id) {
+            $this->simple_log("force_display_full_content: Could not get post ID, returning original content.");
             return $content;
         }
         
-        if ($this->has_unlock_access($post_id)) {
+        $this->simple_log("force_display_full_content: Checking access for post $post_id.");
+        $has_access = $this->has_unlock_access($post_id);
+        $this->simple_log("force_display_full_content: has_unlock_access returned: " . ($has_access ? 'true' : 'false'));
+        
+        if ($has_access) {
             // If this is already the raw post content, return it
             $post = get_post($post_id);
             if (!$post) {
+                 $this->simple_log("force_display_full_content: Could not get post object for $post_id, returning original content.");
                 return $content;
             }
             
-            $this->simple_log("Force displaying full content for post: $post_id");
+            $this->simple_log("force_display_full_content: Access granted, returning full content for post: $post_id");
             
             // This is the most aggressive approach - completely ignore any filtering
             // and return the raw post content with shortcodes processed
@@ -505,6 +526,7 @@ class WordPress_Paywall {
             return $full_content;
         }
         
+        $this->simple_log("force_display_full_content: No access, returning original (potentially restricted) content.");
         return $content;
     }
     
@@ -552,8 +574,10 @@ class WordPress_Paywall {
         // Only try to get user info if WordPress is fully loaded
         if (function_exists('is_user_logged_in') && is_user_logged_in() && function_exists('get_current_user_id')) {
             $user_info = " [User: " . get_current_user_id() . "]";
+        } else if (function_exists('is_user_logged_in')) {
+             $user_info = " [Guest]";
         } else {
-            $user_info = " [System]";
+            $user_info = " [System]"; // Early load, user state unknown
         }
         
         // Safely append to file
