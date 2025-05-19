@@ -1,27 +1,24 @@
 const PaywallAccess = (function () {
   const API_BASE_URL = "https://micro-payments.fly.dev";
   const MAX_RETRIES = 5;
-  const RETRY_DELAY = 1000; // 1 second
+  const RETRY_DELAY = 1000;
 
   let _hasAccess = false;
   let _retryCount = 0;
   const _subscribers = [];
 
   function notifySubscribers() {
-    _subscribers.forEach((callback) => callback(_hasAccess));
+    _subscribers.forEach((cb) => cb(_hasAccess));
   }
 
   function requestToken() {
     console.log(`Requesting token (attempt ${_retryCount + 1})...`);
     window.postMessage({ type: "REQUEST_TOKEN" }, "*");
 
-    // Retry if we don't get a response
     if (_retryCount < MAX_RETRIES) {
       _retryCount++;
       setTimeout(() => {
-        if (!_hasAccess) {
-          requestToken();
-        }
+        if (!_hasAccess) requestToken();
       }, RETRY_DELAY);
     }
   }
@@ -35,8 +32,8 @@ const PaywallAccess = (function () {
       _subscribers.push(callback);
       callback(_hasAccess);
       return () => {
-        const index = _subscribers.indexOf(callback);
-        if (index > -1) _subscribers.splice(index, 1);
+        const i = _subscribers.indexOf(callback);
+        if (i > -1) _subscribers.splice(i, 1);
       };
     },
 
@@ -48,13 +45,12 @@ const PaywallAccess = (function () {
         function (event) {
           if (event.source !== window) return;
           if (event.data.type === "TOKEN_RESPONSE") {
-            _retryCount = MAX_RETRIES; // Stop retrying once we get a response
+            _retryCount = MAX_RETRIES;
             this.checkAccess(event.data.token);
           }
         }.bind(this),
       );
 
-      // Start requesting token
       requestToken();
     },
 
@@ -66,15 +62,26 @@ const PaywallAccess = (function () {
             "Content-Type": "application/json",
             "X-Auth-Proof": authProof,
           },
-          body: JSON.stringify({
-            url: window.location.href,
-          }),
+          body: JSON.stringify({ url: window.location.href }),
         });
 
         const data = await response.json();
         _hasAccess = data.hasAccess;
         notifySubscribers();
-      } catch (error) {
+
+        if (data.hasAccess) {
+          // Fetch and inject full content
+          const res = await fetch(
+            `/wp-json/openpage/v1/post/${leakypaywall_data.post_id}`,
+          );
+          if (res.ok) {
+            const html = await res.text();
+            const container = document.getElementById("paywall-content");
+            if (container) container.innerHTML = html;
+          }
+        }
+      } catch (err) {
+        console.error("Access check or unlock failed:", err);
         _hasAccess = false;
         notifySubscribers();
       }
