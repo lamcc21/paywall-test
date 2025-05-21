@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Leaky Paywall Bypass
- * Description: Secure client-side content unlocking for Leaky Paywall.
- * Version: 1.2.0
+ * Plugin Name: OpenPage Leaky Paywall Unlocker
+ * Description: Unlocks content client-side using token verification without breaking Leaky Paywall.
+ * Version: 1.4.0
  */
 
-// Prevent caching if access granted
+// ✅ Avoid serving cached unlocked content
 add_action("template_redirect", function () {
     if (
         isset($_COOKIE["lp_has_access"]) &&
@@ -17,7 +17,7 @@ add_action("template_redirect", function () {
     }
 });
 
-// REST API to return full post HTML if access is granted
+// ✅ REST API: securely return post HTML if access is granted
 add_action("rest_api_init", function () {
     register_rest_route("openpage/v1", "/post/(?P<id>\d+)", [
         "methods" => "GET",
@@ -27,7 +27,7 @@ add_action("rest_api_init", function () {
                 $_COOKIE["lp_has_access"] === "true"
             ) {
                 $post = get_post($data["id"]);
-                if ($post) {
+                if ($post && $post->post_status === "publish") {
                     return apply_filters("the_content", $post->post_content);
                 }
             }
@@ -39,42 +39,24 @@ add_action("rest_api_init", function () {
     ]);
 });
 
-// Replace main content with placeholder for JS injection
-add_filter(
-    "the_content",
-    function ($content) {
-        if (is_single() && !current_user_can("manage_options")) {
-            return '<div id="paywall-content">🔒 This article is behind a paywall. Checking access…</div>';
-        }
-        return $content;
-    },
-    5
-);
-
-// Always return true for access to prevent Leaky Paywall from hiding content server-side
-add_filter(
-    "leaky_paywall_current_user_can_access",
-    function ($can_access, $post_id) {
-        return true;
-    },
-    20,
-    2
-);
-
-// Load paywall-access.js and pass context
+// ✅ Inject JS + pass post ID
 add_action("wp_enqueue_scripts", function () {
     global $post;
 
+    if (!is_singular() || !isset($post->ID)) {
+        return;
+    }
+
+    $post_id = $post->ID;
     $has_access =
         isset($_COOKIE["lp_has_access"]) &&
         $_COOKIE["lp_has_access"] === "true";
-    $post_id = $post ? $post->ID : 0;
 
     wp_enqueue_script(
         "paywall-access",
         plugins_url("assets/js/paywall-access.js", __FILE__),
         [],
-        "1.2.0",
+        "1.4.0",
         true
     );
 

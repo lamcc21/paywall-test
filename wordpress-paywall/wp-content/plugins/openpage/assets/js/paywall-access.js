@@ -69,21 +69,27 @@ const PaywallAccess = (function () {
         _hasAccess = data.hasAccess;
         notifySubscribers();
 
-        if (data.hasAccess) {
-          // Fetch and inject full content
-          const res = await fetch(
-            `/wp-json/openpage/v1/post/${leakypaywall_data.post_id}`,
-          );
-          if (res.ok) {
-            const html = await res.text();
-            const container = document.getElementById("paywall-content");
-            if (container) container.innerHTML = html;
-          }
+        if (!data.hasAccess) return;
+
+        // 🔓 Access granted — fetch and inject content
+        const res = await fetch(
+          `/wp-json/openpage/v1/post/${leakypaywall_data.post_id}`,
+        );
+        if (!res.ok) throw new Error("Access denied");
+        const html = await res.text();
+
+        // 🔄 Replace the entire Leaky Paywall wrapper parent
+        const wrapper = document.querySelector(
+          ".leaky_paywall_message_wrap",
+        )?.parentNode;
+        if (wrapper) {
+          wrapper.innerHTML = html;
+          console.log("✅ OpenPage: full content unlocked and injected.");
+        } else {
+          console.warn("❌ OpenPage: no wrapper found to inject content.");
         }
       } catch (err) {
-        console.error("Access check or unlock failed:", err);
-        _hasAccess = false;
-        notifySubscribers();
+        console.error("OpenPage unlock failed:", err);
       }
     },
   };
